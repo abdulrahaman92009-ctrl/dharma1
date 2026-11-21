@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: nexconn-custom-chat
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nexconn-chat-db
+          property: connectionString
+      - key: DATABASE_SSL
+        value: "true"
+databases:
+  - name: nexconn-chat-db
+    plan: free
